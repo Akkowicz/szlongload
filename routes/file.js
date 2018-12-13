@@ -1,3 +1,5 @@
+const fs = require('fs');
+const mime = require('mime');
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -16,7 +18,19 @@ const upload = multer({ storage });
 
 // GET download file route
 router.get('/:id', (req, res, next) => {
-    res.send(`Respond with a file: ${req.params.id}`);
+    const filePath = path.join('./uploads/', req.params.id); 
+    let stat;
+    fs.stat(filePath, (err, stats) => {
+        stat = stats;
+        res.writeHead(200, {
+            'Content-Type': `${mime.getType(filePath)}`,
+            'Content-Length': stat.size
+        });
+    
+        const readStream = fs.createReadStream(filePath);
+        readStream.pipe(res);
+    });
+
 });
 
 // POST upload file route
