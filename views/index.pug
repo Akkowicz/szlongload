@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Szlongload
+  p Max. upload size -> 100MB
+  label(for="file-form") SELECT YOUR FILE
+    form(action="/file", method="post" enctype="multipart/form-data", id="file-form")
+      input(type="file", name="userfile", required)
+      button(type="submit") Upload

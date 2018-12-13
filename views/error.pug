@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  if error.status === 500
+    h1= "Upsy, dupsy, we've fucked up"
+    h2= "Error: " + error.status
+    a(href="/") Get Back
+    pre #{error.stack}
+  else if error.status === 404
+    h1= "Seems that you're lost"
+    h2= "Error: " + error.status
+    a(href="/") Get Back
+    pre #{error.stack}
+  else
+    h1= message
+    h2= error.status
+    pre #{error.stack}
