@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const mime = require('mime');
 const express = require('express');
