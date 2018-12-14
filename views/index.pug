@@ -9,3 +9,6 @@ block content
       input(type="file", name="userfile", required)
       br
       button(type="submit") Upload
+  if file.uploaded === true
+    h2= "Your file was uploaded successfully!"
+    a(href= file.link, _target="blank") CLICK TO DOWNLOAD/COPY TO SHARE
