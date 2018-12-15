@@ -8,13 +8,16 @@ const execFile = require('child_process').execFile;
 const stream = require('stream');
 
 const storage = multer.memoryStorage();
-
-const upload = multer({ storage });
+const limits = {
+    fileSize: 100 * 1024 * 1024,
+    files: 1
+};
+const upload = multer({storage, limits});
 
 // GET download file route
 router.get('/:id', (req, res, next) => {
     const fileName = `${req.params.id}.7z`;
-    const filePath = `./uploads/${fileName}`; 
+    const filePath = `./uploads/${fileName}`;
     const dispoString = `inline; filename="${fileName}"`;
     let stat;
     fs.stat(filePath, (err, stats) => {
@@ -24,7 +27,7 @@ router.get('/:id', (req, res, next) => {
             'Content-Length': stat.size,
             'Content-Disposition': dispoString
         });
-    
+
         const readStream = fs.createReadStream(filePath);
         readStream.pipe(res);
     });
@@ -47,7 +50,7 @@ router.post('/', upload.single('userfile'), (req, res, next) => {
             }
         });
     });
-    
+
     stdinStream.push(req.file.buffer);
     stdinStream.push(null);
     stdinStream.pipe(seven.stdin);
