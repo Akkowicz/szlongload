@@ -34,21 +34,23 @@ router.get('/:id', (req, res, next) => {
 // POST upload file route
 router.post('/', upload.single('userfile'), (req, res, next) => {
     const fileName = Date.now();
-    const seven = execFile('7za', ['a', `./uploads/${fileName}.7z`, `-mhe=on`, `-si${req.file.originalname}`, `-p${req.body.pass}`], (error, stdout, stderr) => {
-        if (error) {
-          throw error;
-        }
-    });
     const stdinStream = new stream.Readable();
+    const seven = execFile('7za', ['a', `./uploads/${fileName}.7z`, '-mx=0', '-mhe=on', `-si${req.file.originalname}`, `-p${req.body.pass}`], (error, stdout, stderr) => {
+        if (error) {
+            throw error;
+        }
+        stdinStream.unpipe(seven.stdin);
+        res.render('index', {
+            file: {
+                uploaded: true,
+                link: `/file/${fileName}`
+            }
+        });
+    });
+    
     stdinStream.push(req.file.buffer);
     stdinStream.push(null);
     stdinStream.pipe(seven.stdin);
-    res.render('index', {
-        file: {
-            uploaded: true,
-            link: `/file/${fileName}`
-        }
-    });
 });
 
 module.exports = router;
