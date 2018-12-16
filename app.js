@@ -46,9 +46,12 @@ app.use((err, req, res, next) => {
     res.locals.message = err.message;
     res.locals.error = process.env.NODE_ENV === 'dev' ? err : {status: err.status};
 
+    const errRes = async (err) => {
+        await res.status(err.status || 500);
+        await res.render('error');
+    };
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    errRes(err);
 });
 
 module.exports = app;
