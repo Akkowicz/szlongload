@@ -30,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join('./', 'public'), { maxAge: 600000 }));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use('/file', reqLimiter);
 
 app.use('/', indexRouter);
 app.use('/file', filesRouter);
