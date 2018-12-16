@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 Szlongload
-  p Max. upload size -> 100MB
+  p Files are being removed after 24h. Max. upload size: 100MB
   label(for="file-form") SELECT YOUR FILE
     form(action="/file", method="post" enctype="multipart/form-data", id="file-form")
       input(type="password", name="pass", placeholder="Passphrase", required)
@@ -10,5 +10,7 @@ block content
       br
       button(type="submit") Upload
   if file.uploaded === true
-    h2= "Your file was uploaded successfully!"
+    h2 Your file was uploaded successfully!
+    h3 Your password:
+    p= file.digest
     a(href= file.link, _target="blank") CLICK TO DOWNLOAD/COPY TO SHARE
