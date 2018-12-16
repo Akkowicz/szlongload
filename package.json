@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --max_old_space_size=300 ./bin/www"
+    "start": "nodemon --max_old_space_size=140 ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
