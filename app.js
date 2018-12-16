@@ -6,6 +6,12 @@ const helmet = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const rateLimit = require('express-rate-limit');
+
+const reqLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10
+});
 
 const indexRouter = require('./routes/index');
 const filesRouter = require('./routes/file');
