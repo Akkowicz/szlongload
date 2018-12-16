@@ -6,6 +6,7 @@ const router = express.Router();
 const multer = require('multer');
 const execFile = require('child_process').execFile;
 const stream = require('stream');
+const crypto = require('crypto');
 
 const storage = multer.memoryStorage();
 const limits = {
@@ -38,7 +39,12 @@ router.get('/:id', (req, res, next) => {
 router.post('/', upload.single('userfile'), (req, res, next) => {
     const fileName = Date.now();
     const stdinStream = new stream.Readable();
-    const seven = execFile('7za', ['a', `./uploads/${fileName}.7z`, '-mx=0', '-mhe=on', `-si${req.file.originalname}`, `-p${req.body.pass}`], (error, stdout, stderr) => {
+    // Use hashed input as password
+    const hash = crypto.createHash('sha256');
+    hash.update(req.body.pass);
+    const digest = hash.digest('hex');
+    
+    const seven = execFile('7za', ['a', `./uploads/${fileName}.7z`, '-mx=0', '-mhe=on', `-si${req.file.originalname}`, `-p${digest}`], (error, stdout, stderr) => {
         if (error) {
             throw error;
         }
@@ -46,7 +52,8 @@ router.post('/', upload.single('userfile'), (req, res, next) => {
         res.render('index', {
             file: {
                 uploaded: true,
-                link: `/file/${fileName}`
+                link: `/file/${fileName}`,
+                digest: digest
             }
         });
     });
