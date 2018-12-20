@@ -34,5 +34,5 @@ const getFilesForDeletion = async () => {
     });
 };
 
-
+getFilesForDeletion();
 exports.job = new CronJob('20 * * * *', getFilesForDeletion);
