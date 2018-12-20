@@ -45,7 +45,7 @@ router.post('/', upload.single('userfile'), (req, res, next) => {
     hash.update(req.body.pass);
     const digest = hash.digest('hex');
     
-    const seven = execFile('7za', ['a', `./uploads/${fileName}.7z`, '-mx=0', '-mhe=on', `-si${req.file.originalname}`, `-p${digest}`], (error, stdout, stderr) => {
+    const seven = execFile('./node_modules/7zip-bin/linux/x64/7za', ['a', `./uploads/${fileName}.7z`, '-mx=0', '-mhe=on', `-si${req.file.originalname}`, `-p${digest}`], (error, stdout, stderr) => {
         if (error) {
             throw error;
         }
