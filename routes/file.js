@@ -7,6 +7,7 @@ const multer = require('multer');
 const execFile = require('child_process').execFile;
 const stream = require('stream');
 const crypto = require('crypto');
+const fileCleaning = require('../controllers/file').job;
 
 const storage = multer.memoryStorage();
 const limits = {
@@ -62,5 +63,7 @@ router.post('/', upload.single('userfile'), (req, res, next) => {
     stdinStream.push(null);
     stdinStream.pipe(seven.stdin);
 });
+
+fileCleaning.start();
 
 module.exports = router;
