@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --max_old_space_size=140 ./bin/www"
+    "start": "pm2-runtime --node-args '--max_old_space_size=140' ./bin/www"
   },
   "dependencies": {
     "7zip-bin": "^4.1.0",
@@ -21,6 +21,7 @@
     "mime": "^2.4.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
+    "pm2": "^3.2.4",
     "pug": "^2.0.0-beta11",
     "serve-favicon": "^2.5.0"
   },

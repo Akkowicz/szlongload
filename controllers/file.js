@@ -37,8 +37,8 @@ const getFilesForDeletion = async () => {
 const createUploadsDir = async () => {
     fs.mkdir('./uploads', { recursive: true }, (err) => {
         if (err) throw err;
-      });
-}
+    });
+};
 
 createUploadsDir();
 getFilesForDeletion();
